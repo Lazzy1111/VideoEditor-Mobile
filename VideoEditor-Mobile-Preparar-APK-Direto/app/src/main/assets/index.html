@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0C0D14">
+  <meta name="description" content="Editor de vídeo mobile: timeline, cortes, música, texto, filtros e exportação offline.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="application-name" content="VideoEditor Mobile">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ui-v2.css">
+  <title>VideoEditor Mobile — Editor</title>
+</head>
+<body>
+<svg class="svg-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="m9 8 12 12M14 10l7-7M9 16l3-3"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3M12 4v16M8 20h8"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4m-4 8h4m10-8h4m-4 8h4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-2"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5m5 5H10a6 6 0 0 0 0 12h2"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7M10 11v6m4-6v6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m5 15 7-7 7 7"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/></symbol>
+  <symbol id="i-setting" viewBox="0 0 24 24"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.4-6.4-2.1 2.1m-8.6 8.6-2.1 2.1m12.8 0-2.1-2.1M7.7 7.7 5.6 5.6"/><circle cx="12" cy="12" r="4"/></symbol>
+</svg>
+<div id="app">
+  <header class="topbar">
+    <div class="brand" aria-label="VideoEditor Mobile"><span class="brand-mark"><svg><use href="#i-film"/></svg></span><div><div class="brand-name">VIDEO<span>EDITOR</span></div></div></div>
+    <div class="header-right"><span class="save-state" id="saveState">Projeto local</span><button class="icon-button" id="undoBtn" aria-label="Desfazer" title="Desfazer"><svg><use href="#i-undo"/></svg></button><button class="icon-button" id="redoBtn" aria-label="Refazer" title="Refazer"><svg><use href="#i-redo"/></svg></button><button class="btn export-top" id="exportTop"><svg><use href="#i-upload"/></svg><span>Exportar</span></button></div>
+  </header>
+  <div class="workspace">
+    <section class="studio-main">
+      <div class="project-head"><div><input id="projectName" value="Meu primeiro vídeo" maxlength="60" aria-label="Nome do projeto"></div><div class="project-meta"><span id="clipCount">0 clipes</span><span class="meta-dot"></span><span id="totalDuration">00:00</span></div></div>
+      <div class="viewer-wrap">
+        <div class="viewer-toolbar"><span class="viewer-label">Prévia</span><div class="pill-row"><span id="previewAspect">9:16</span><span id="previewQuality">480 × 854</span></div></div>
+        <div class="viewer-stage">
+          <div id="canvasFrame" class="canvas-frame ratio-portrait"><canvas id="previewCanvas" width="480" height="854" aria-label="Pré-visualização do projeto"></canvas><div class="canvas-empty" id="emptyState"><div class="empty-icon"><svg><use href="#i-plus"/></svg></div><h2>Projeto vazio</h2><p>Importe vídeos ou fotos para começar.</p><button class="btn" id="emptyImport"><svg><use href="#i-plus"/></svg>Adicionar mídia</button></div></div>
+        </div>
+        <div class="transport"><button class="icon-button" id="backwardBtn" aria-label="Voltar 5 segundos" title="Voltar 5s"><svg><use href="#i-left"/></svg></button><button class="play-button" id="playBtn" aria-label="Reproduzir"><svg><use href="#i-play"/></svg></button><button class="icon-button" id="forwardBtn" aria-label="Avançar 5 segundos" title="Avançar 5s"><svg><use href="#i-right"/></svg></button><div class="timecode"><span id="currentTime">00:00.0</span><span class="time-muted">/ <span id="endTime">00:00.0</span></span></div></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-head"><div><svg><use href="#i-film"/></svg><span>Timeline</span></div><button class="text-button" id="addClip"><svg><use href="#i-plus"/></svg> Adicionar</button></div>
+        <div class="scrubber" id="scrubber" role="slider" aria-label="Posição do vídeo" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="scrubber-track"><div class="scrubber-progress" id="scrubberProgress"></div><div class="scrubber-thumb" id="scrubberThumb"></div></div></div>
+        <div class="timeline-zoom"><span id="zoomStatus">16 px/s</span><div><button id="zoomOut" class="zoom-button" aria-label="Diminuir zoom">−</button><button id="zoomIn" class="zoom-button" aria-label="Aumentar zoom">+</button></div></div><div class="timeline-viewport" id="timelineViewport" tabindex="0" aria-label="Linha do tempo, arraste para navegar"><div class="timeline-content" id="timelineContent"><div class="timeline-ruler" id="timelineRuler"></div><div class="clips" id="clips"><div class="clips-placeholder">Adicione mídia para editar</div></div><div id="timelinePlayhead" class="timeline-playhead" aria-hidden="true"></div></div></div>
+        <div class="timeline-hint">Toque para selecionar · segure para mover · arraste as bordas para cortar · pinça para zoom</div>
+        <div class="audio-strip" id="audioStrip"><div class="audio-strip-icon"><svg><use href="#i-music"/></svg></div><div class="audio-strip-text"><b>Trilha sonora</b><span id="audioName">Nenhuma música adicionada</span></div><button class="audio-strip-action" id="addMusicMini">Adicionar</button></div>
+      </div>
+    </section>
+    <aside class="tools" id="tools"><div class="tools-heading"><div><h2>Ferramentas</h2></div><button id="closeTools" class="icon-button sheet-close" aria-label="Fechar ferramentas"><svg><use href="#i-close"/></svg></button></div>
+      <nav class="tool-tabs" id="tabs" aria-label="Ferramentas de edição"><button class="tool-tab active" data-tab="clip"><svg><use href="#i-scissors"/></svg><span>Cortes</span></button><button class="tool-tab" data-tab="look"><svg><use href="#i-sliders"/></svg><span>Ajustes</span></button><button class="tool-tab" data-tab="text"><svg><use href="#i-type"/></svg><span>Texto</span></button><button class="tool-tab" data-tab="audio"><svg><use href="#i-music"/></svg><span>Áudio</span></button><button class="tool-tab" data-tab="output"><svg><use href="#i-setting"/></svg><span>Projeto</span></button></nav>
+      <div class="tools-body">
+        <section class="tool-panel active" id="tab-clip"><div class="panel-title">Editar clipe <small id="selectedClipName">Nenhum selecionado</small></div><div class="clip-notice" id="clipNotice">Importe um vídeo ou foto para usar as ferramentas de corte.</div><div id="clipControls" class="disabled-panel"><div class="form-label">INÍCIO E FIM</div><div class="trim-grid"><label>Início <span id="trimStartValue">0.0s</span><input type="range" id="trimStart" min="0" max="10" step="0.05"></label><label>Fim <span id="trimEndValue">0.0s</span><input type="range" id="trimEnd" min="0" max="10" step="0.05"></label></div><div class="form-label">VELOCIDADE</div><div class="segmented" id="speedOptions"><button data-speed="0.5">0.5×</button><button data-speed="1" class="selected">1×</button><button data-speed="1.5">1.5×</button><button data-speed="2">2×</button></div><div class="edit-action-grid"><button class="action-button" id="splitClip"><svg><use href="#i-scissors"/></svg>Dividir</button><button class="action-button" id="moveLeft"><svg><use href="#i-left"/></svg>Mover</button><button class="action-button" id="moveRight"><svg><use href="#i-right"/></svg>Mover</button><button class="action-button" id="duplicateClip"><svg><use href="#i-plus"/></svg>Duplicar</button><button class="action-button danger" id="deleteClip"><svg><use href="#i-trash"/></svg>Remover</button></div></div></section>
+        <section class="tool-panel" id="tab-look"><div class="panel-title">Cor e imagem <small>Os ajustes aparecem também no arquivo exportado</small></div><div class="slider-row"><label for="brightness">Brilho <span id="brightnessValue">100%</span></label><input id="brightness" type="range" min="30" max="170" value="100"></div><div class="slider-row"><label for="contrast">Contraste <span id="contrastValue">100%</span></label><input id="contrast" type="range" min="30" max="170" value="100"></div><div class="slider-row"><label for="saturation">Saturação <span id="saturationValue">100%</span></label><input id="saturation" type="range" min="0" max="200" value="100"></div><div class="slider-row"><label for="grayscale">Preto e branco <span id="grayscaleValue">0%</span></label><input id="grayscale" type="range" min="0" max="100" value="0"></div><div class="field-row"><label>Enquadramento<select id="fitMode"><option value="cover">Preencher (cortar bordas)</option><option value="contain">Encaixar (sem cortar)</option></select></label><label>Rotação<select id="rotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></label></div><button class="subtle-button" id="resetLook">Restaurar ajustes</button></section>
+        <section class="tool-panel" id="tab-text"><div class="panel-title">Texto no vídeo <small>Defina a duração do texto na timeline</small></div><label class="form-field">Conteúdo<textarea id="overlayText" rows="2" placeholder="Escreva seu título aqui..." maxlength="120"></textarea></label><div class="field-row"><label>Tamanho<input id="fontSize" type="range" min="18" max="90" value="42"></label><label>Cor<input id="fontColor" type="color" value="#ffffff"></label></div><div class="form-label">POSIÇÃO</div><div class="segmented" id="textPosition"><button data-position="top">Superior</button><button data-position="center" class="selected">Centro</button><button data-position="bottom">Inferior</button></div><div class="text-timing"><label>Início (s)<input id="textStart" type="number" min="0" step="0.1" value="0"></label><label>Fim (s)<input id="textEnd" type="number" min="0" step="0.1" value="5"></label></div><div class="tiny-note">O texto aparece somente no intervalo definido.</div></section>
+        <section class="tool-panel" id="tab-audio"><div class="panel-title">Áudio <small>Combine o som original e uma música de fundo</small></div><div class="slider-row"><label for="originalVolume">Som do vídeo <span id="originalVolumeValue">100%</span></label><input type="range" id="originalVolume" min="0" max="100" value="100"></div><button class="subtle-button audio-import" id="addAudio"><svg><use href="#i-plus"/></svg>Adicionar música do celular</button><p class="music-filename" id="musicInfo">Sem trilha sonora</p><div class="slider-row"><label for="musicVolume">Volume da música <span id="musicVolumeValue">35%</span></label><input type="range" id="musicVolume" min="0" max="100" value="35"></div><div class="segmented"><button class="wide-btn" id="removeAudio">Remover música</button></div><p class="tiny-note">A música começa junto do projeto e repete até o final.</p></section>
+        <section class="tool-panel" id="tab-output"><div class="panel-title">Projeto e exportação <small>Escolha o formato antes de salvar seu vídeo</small></div><div class="form-label">PROPORÇÃO</div><div class="aspect-select" id="aspectOptions"><button data-aspect="9:16" class="selected"><span class="ratio-icon r-portrait"></span>9:16<small>Stories</small></button><button data-aspect="16:9"><span class="ratio-icon r-landscape"></span>16:9<small>YouTube</small></button><button data-aspect="1:1"><span class="ratio-icon r-square"></span>1:1<small>Quadrado</small></button></div><div class="field-row"><label>Resolução<select id="resolution"><option value="480">Leve · 480p</option><option value="720" selected>HD · 720p</option><option value="1080">Full HD · 1080p</option></select></label><label>Quadros/s<select id="frameRate"><option value="24">24 FPS</option><option value="30" selected>30 FPS</option></select></label></div><button class="btn full-btn" id="exportPanel"><svg><use href="#i-download"/></svg>Exportar projeto</button><button class="subtle-button" id="newProject">Novo projeto</button><p class="tiny-note">MP4 quando suportado pelo aparelho; caso contrário WebM. Vídeos grandes podem exigir mais memória e espaço livre.</p></section>
+      </div>
+      
+    </aside>
+  </div>
+  
+</div>
+<input id="mediaInput" type="file" accept="video/*,image/*" multiple hidden>
+<input id="audioInput" type="file" accept="audio/*" hidden>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="exportModal" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle" hidden><div class="modal"><button class="modal-close icon-button" id="closeModal" aria-label="Fechar"><svg><use href="#i-close"/></svg></button><div class="export-bubble"><svg><use href="#i-download"/></svg></div><h2 id="exportModalTitle">Exportar vídeo</h2><p id="exportDescription">O vídeo será gerado no próprio dispositivo, sem upload.</p><div class="export-summary"><span>Formato</span><b id="exportFormat">Verificando…</b><span>Resolução</span><b id="exportResolution">—</b><span>Duração</span><b id="exportDuration">—</b></div><div class="export-progress-track"><div id="exportProgress"></div></div><div class="export-progress-text" id="exportProgressText">Pronto para começar</div><button class="btn full-btn" id="startExport">Iniciar exportação</button><button class="subtle-button" id="cancelExport">Cancelar / Fechar</button><p class="tiny-note">Não desligue a tela durante a exportação. Ela ocorre em tempo real.</p></div></div>
+<script src="app.js" defer></script>
+</body>
+</html>

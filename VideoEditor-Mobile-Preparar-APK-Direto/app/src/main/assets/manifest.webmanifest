@@ -1,0 +1,17 @@
+{
+  "name": "VideoEditor Mobile",
+  "short_name": "VideoEditor",
+  "description": "Editor de vídeos com cortes, timeline proporcional, ajustes por clipe, música e exportação local.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#0C0D14",
+  "background_color": "#0C0D14",
+  "lang": "pt-BR",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
